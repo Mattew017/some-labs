@@ -1,9 +1,10 @@
 #include <iostream>
 
+//Элемент циклического списка
 struct Node {
     int number;
     Node *next;
-    
+    //Конструктор
     Node(int n, Node* t) {
         number = n;
         next = t;
@@ -11,30 +12,21 @@ struct Node {
 };
 
 
-void show_list(Node* root) 
-{
-    Node* x = root;
-    do {
-        std::cout << x->number << " ";
-        x = x->next;
-    } while (x != root);
-    std::cout << std::endl;
-};
-
 int main()
 {
+    setlocale(LC_ALL, "Russian");
     int N, M;
-    std::cout << "Input N and M:" << std::endl;
+    std::cout << "Введите N - количество воинов, и M -- через скольких убивать:" << std::endl;
     std::cin >> N >> M;
-    Node* root = new Node(1, nullptr);
+    Node* root = new Node(1, nullptr); //1-ый элемент списка
     root->next= root;  //1-ый элемент указывает на самого себя
-    Node* x = root;
-    for (int i = 2; i <= N; i++) {
+    Node* x = root; //x указывет на 1-ый элемент
+    for (int i = 2; i <= N; i++) //заполняем список от 2 до N
+    {
         x = (x->next = new Node(i, root));
     };
-    x = root;
-    show_list(x);
-    
+    x = root; 
+
     while (x->next != x) //пока x не указывет на самого себя(т.е. остался 1 элемент)
     {
         for (int i = 2; i < M; i++)  //переходим к элементу m - 1
@@ -45,6 +37,6 @@ int main()
         delete killed; //очистка памяти
     }
     
-    std::cout << x->number << std::endl;
+    std::cout <<"Последний выживший воин стоял под номером " << x->number << std::endl;
     return 0;
 }
