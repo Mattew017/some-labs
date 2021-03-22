@@ -1,3 +1,6 @@
+import math
+
+
 def F1(x):
     result = 0
     for i in range(len(x)):

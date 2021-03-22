@@ -46,10 +46,7 @@ def BBO(F, count_of_iter, pop_size, mutation_probability, search_params):
         Population.sort(key = F)
         values = [F(x) for x in Population]                           
 
-    # первые 3 лучших значения
-    print(f'Total count of generations is {generation}' )
-    print(f'Answer Values {values[0]}')
-    print(f'Best Population params {Population[0]}')
+    return values[0], Population[0]
 
 
 
