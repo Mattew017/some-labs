@@ -25,15 +25,14 @@ result = {
     "time": None
 }
 
-data_frame = pd.DataFrame(columns=result.keys())
-
-start = time.time()
-for function in search_params.keys():
-    for count_of_iter in range(100, 1000, 500):
-        for pop_size in range(5, 40, 10):
-            for m_p in np.arange(0, 0.5, 0.05):
+def test_function(function, search_params):
+    data_frame = pd.DataFrame(columns=result.keys())
+    start = time.time()
+    for count_of_iter in [100, 1000]:
+        for pop_size in range(5, 50, 15):
+            for m_p in np.arange(0, 0.3, 0.1):
                 start_time = time.time()
-                answer = myBBO.BBO(function, count_of_iter,pop_size,m_p, search_params[function])
+                answer = myBBO.BBO(function, count_of_iter,pop_size,m_p, search_params)
                 total_time = round(time.time() - start_time, 5)
                 fitness = answer[0]
                 params  = rounder(answer[1])
@@ -47,6 +46,13 @@ for function in search_params.keys():
                 result["time"] = total_time
 
                 data_frame = data_frame.append(result, ignore_index = True)
-data_frame.to_csv('csv.csv')
-data_frame.to_excel('benchmark.xlsx')
-print(f'Total time of benchmarking: {time.time() - start}')
+    data_frame.to_csv(f'{function.__name__}.csv')
+    data_frame.to_excel(f'{function.__name__}.xlsx')
+    print(f'Total time of benchmarking: {time.time() - start}')
+
+
+def main():
+    test_function(F1, search_params[F1])
+
+if __name__ == "__main__":
+    main()
